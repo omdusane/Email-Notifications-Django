@@ -27,6 +27,7 @@ urlpatterns = [
     path('', home_view, name='home'),
     path('profile/', include('users.urls')),
     path('@<username>/', profile_view, name='profile'),
+    path('messageboard/', include('messageboard.urls')),
 ]
 
 # dev
