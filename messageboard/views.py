@@ -1,10 +1,11 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 from .models import MessageBoard
 from .forms import *
 from .tasks import send_email_task
 from django.core.mail import EmailMessage
+
 
 @login_required
 def messageboard_view(request):
@@ -41,6 +42,17 @@ def subscribe_view(request):
 
     return redirect('messageboard')
 
+@login_required
+def unsubscribe_view(request):
+    pass
+
+def is_staff(user):
+    return user.is_staff
+
+@user_passes_test(is_staff)
+def newsletter_view(request):
+    return render(request, 'messageboard/newsletter.html')
+
 
 def send_email(message):
     messageboard = message.messageboard
@@ -51,3 +63,4 @@ def send_email(message):
         body = f'{message.author.profile.name} : {message.body} \n\n Regards from MessageBoard'
 
         send_email_task.delay(subject, body, subscriber.email)
+

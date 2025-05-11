@@ -13,7 +13,7 @@
             <td id="email-address" class="pt-4 pb-1 px-6">
                 {% if user.email %}{{ user.email }}{% else %}No Email{% endif %}
             </td>
-            <td class="pt-4 pb-1 px-6">
+            <td class="pt-4 pb-1 px-6 min-w-20">
                 <a id="email-edit" hx-get="{% url 'profile-emailchange' %}" hx-target="#email-address" hx-swap="innerHTML" class="cursor-pointer font-medium text-blue-600 hover:underline">
                     Edit
                 </a>
@@ -32,6 +32,33 @@
                 <a href="{% url 'profile-emailverify' %}" class="font-medium text-blue-600 hover:underline">
                     {% if not user.emailaddress_set.first.verified %}Verify{% endif %}
                 </a>
+            </td>
+        </tr>
+
+        <tr class="border-b">
+            <th scope="row" class="align-top pt-4 pb-1 text-base font-bold text-gray-900">
+                Newsletter
+            </th>
+            <td class="pt-4 pb-1 pl-4">
+                <div>
+                    Monthly Goodies
+                </div>
+                <div class="pt-1 pb-3">
+                    {% if user.profile.newsletter_subscribed %}
+                    <span class="text-green-500">Subscribed</span>
+                    {% else %}
+                    <span class="text-red-600">Unsubscribed</span>
+                    {% endif %}
+                </div>
+            </td>
+            <td class="align-top pt-4 pb-1 pl-4">
+                <a href="{% url 'profile-newsletter' %}" class="text-blue-600 font-medium hover:underline">
+                    {% if user.profile.newsletter_subscribed %}
+                    Cancel
+                    {% else %}
+                    Activate
+                    {% endif %}
+                </a>           
             </td>
         </tr>
 
